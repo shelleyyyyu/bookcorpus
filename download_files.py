@@ -85,7 +85,7 @@ def main():
             out_path = os.path.join(out_dir, out_file_name)
             if out_file_name in done_files:
                 continue
-            if data['txt']:
+            if data['txt'] == "noonooo":
                 # try to download .txt file
                 for try_count in range(MAX_OPEN_COUNT):
                     try:

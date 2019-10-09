@@ -151,10 +151,11 @@ class epub2txt():
             # fo.write("*"*(t.level+1) + " " + t.text.encode("utf-8")+"\n")
             # fo.write(t.text.encode("utf-8")+"{{{%d\n" % (t.level+1))
             # fo.write(text.encode("utf-8")+"\n")
-            content.append("*" * (t.level+1) + " " +
-                           t.text + "\n")
-            content.append(t.text + "{{{%d\n" % (t.level+1))
-            content.append(text + "\n")
+            # content.append("*" * (t.level+1) + " " +t.text + "\n")
+            # content.append(t.text + "{{{%d\n" % (t.level+1))
+            # content.append(text + "\n")
+
+            content.append("<PARAGRAPH_HERE>\n" + text + "\n")
         # fo.close()
         file.close()
         return ''.join(content)

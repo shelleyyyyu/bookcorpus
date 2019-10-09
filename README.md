@@ -12,7 +12,7 @@ Collected sentences may partially **differ** but the number of them will be larg
 Prepare URLs of available books. However, this repository already has a list as `url_list.jsonl` which was a snapshot I (@soskek) collected on Jan 19-20, 2019. You can use it if you'd like.
 
 ```
-python -u download_list.py > url_list.jsonl &
+python -u download_list.py > url_list_short.jsonl &
 ```
 
 Download their files. Downloading is performed for `txt` files if possible. Otherwise, this tries to extract text from `epub`. The additional argument `--trash-bad-count` filters out `epub` files whose word count is largely different from its official stat (because it may imply some failure).

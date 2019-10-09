@@ -24,7 +24,6 @@ from bs4 import BeautifulSoup
 import os
 import datetime
 import json
-from progressbar import ProgressBar
 
 # If you wanna use some info, write them.
 REQUIRED = [
@@ -43,8 +42,11 @@ SLEEP_SEC = 0.1
 RETRY_SLEEP_SEC = 1.
 MAX_OPEN_COUNT = 3
 
-search_url_pt = 'https://www.smashwords.com/books/category/1/downloads/0/free/medium/{}'
-search_urls = [search_url_pt.format(i) for i in range(0, 24000 + 1, 20)]
+#search_url_pt = 'https://www.smashwords.com/books/category/1/downloads/0/free/medium/{}'
+#search_urls = [search_url_pt.format(i) for i in range(0, 24000 + 1, 20)]
+
+search_url_pt = 'https://www.smashwords.com/books/category/3/downloads/0/free/short/{}'
+search_urls = [search_url_pt.format(i) for i in range(0, 29000 + 1, 20)]
 
 num_words_pt = re.compile(r'Words: (\d+)')
 pub_date_pt = re.compile(r'Published: ([\w\.]+\s[\d]+,\s[\d]+)')
@@ -56,7 +58,7 @@ def main():
     sys.stderr.write(str(datetime.datetime.now()) + '\n')
 
     book_index = 0
-    for i, s_url in enumerate(ProgressBar()(search_urls)):
+    for i, s_url in enumerate(search_urls):
         time.sleep(SLEEP_SEC)
         for try_count in range(MAX_OPEN_COUNT):
             try:
