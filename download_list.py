@@ -24,6 +24,7 @@ from bs4 import BeautifulSoup
 import os
 import datetime
 import json
+import argparse
 
 # If you wanna use some info, write them.
 REQUIRED = [
@@ -52,10 +53,12 @@ num_words_pt = re.compile(r'Words: (\d+)')
 pub_date_pt = re.compile(r'Published: ([\w\.]+\s[\d]+,\s[\d]+)')
 
 
-def main():
+def main(args):
+    filename = args.filename
     start_time = time.time()
     dataset = []
     sys.stderr.write(str(datetime.datetime.now()) + '\n')
+    print("Filename: %s", %filename)
 
     book_index = 0
     for i, s_url in enumerate(search_urls):
@@ -214,5 +217,12 @@ def main():
             print(json.dumps(data))
 
 
+def add_arguments(parser):
+    parser.add_argument("--filename", type=str, default="./url_list_short.jsonl", help="Print List Location")
+
+
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    add_arguments(parser)
+    args = parser.parse_args()
+    main(args)
