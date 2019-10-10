@@ -58,7 +58,8 @@ def main(args):
     start_time = time.time()
     dataset = []
     sys.stderr.write(str(datetime.datetime.now()) + '\n')
-    print("Filename: %s", %filename)
+    print("Filename: " + filename)
+    fo = open(filename, 'wb', 0)
 
     book_index = 0
     for i, s_url in enumerate(search_urls):
@@ -140,7 +141,7 @@ def main(args):
             # get genres
             genre_txts = soup.find_all(class_="category")
             if genre_txts:
-                genres = [g.text.replace('\u00a0\u00bb\u00a0', '\t').strip()
+                genres = [g.text.replace('\u00a0\u00bb\u00a0', '\t').replace('\u00bb','<SEP>').replace('Category: ','').strip()
                           for g in genre_txts]
             elif 'genres' in REQUIRED:
                 sys.stderr.write('Failed: genre {}\n'.format(b_url))
@@ -214,7 +215,11 @@ def main(args):
                 'num_words': num_words,
                 'b_idx': book_index
             }
-            print(json.dumps(data))
+            print("Scrapped book: " + str(book_index) +". " + title + " (" + epub_url + ')')
+            new_str = str(data) + '\n'
+            fo.write(new_str.encode('utf-8'))
+    
+    fo.close()
 
 
 def add_arguments(parser):
