@@ -219,7 +219,7 @@ def main(args):
                 'num_words': num_words,
                 'b_idx': book_index
             }
-            print("Scrapped book: " + str(book_index) +". " + title + " (" + epub_url + ')')
+            print("Scrapped book: " + str(book_index) +". " + str(title.encode('utf-8')) + " (" + str(epub_url.encode('utf-8')) + ')')
             new_str = str(json.dumps(data)) + '\n'
             fo.write(new_str.encode('utf-8'))
     
