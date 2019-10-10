@@ -76,7 +76,11 @@ def main(args):
                 time.sleep(RETRY_SLEEP_SEC)
         else:
             sys.stderr.write(' Gave up to open {}\n'.format(s_url))
-        body = response.read()
+        try:
+            body = response.read()
+        except http_client.IncompleteRead as e:
+            body = e.partial
+
         soup = BeautifulSoup(body, 'lxml')
 
         book_links = soup.find_all(class_="library-title")
