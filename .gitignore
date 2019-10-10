@@ -103,3 +103,4 @@ venv.bak/
 # mypy
 .mypy_cache/
 url_list_short.jsonl
+out_txts
