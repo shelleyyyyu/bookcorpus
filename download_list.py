@@ -78,7 +78,7 @@ def main(args):
             sys.stderr.write(' Gave up to open {}\n'.format(s_url))
         try:
             body = response.read()
-        except http_client.IncompleteRead as e:
+        except Exception as e:
             body = e.partial
 
         soup = BeautifulSoup(body, 'lxml')
