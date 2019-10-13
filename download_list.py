@@ -88,6 +88,7 @@ def main(args):
         except ConnectionResetError:
             brokenlinks = ' ConnectionResetError - link: ' + s_url
             sys.stderr.write(brokenlinks)
+            time.sleep(RETRY_SLEEP_SEC)
             continue
 
         soup = BeautifulSoup(body, 'lxml')
