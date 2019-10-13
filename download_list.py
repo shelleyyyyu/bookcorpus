@@ -76,10 +76,12 @@ def main(args):
                 time.sleep(RETRY_SLEEP_SEC)
         else:
             sys.stderr.write(' Gave up to open {}\n'.format(s_url))
+        
         try:
             body = response.read()
         except Exception as e:
             body = e.partial
+            sys.stderr.write('response.read() exception: ' + e)
 
         soup = BeautifulSoup(body, 'lxml')
 
