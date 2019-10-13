@@ -77,11 +77,18 @@ def main(args):
         else:
             sys.stderr.write(' Gave up to open {}\n'.format(s_url))
         
+        #try:
+        #    body = response.read()
+        #except Exception as e:
+        #    body = e.partial
+        #    sys.stderr.write('response.read() exception: ' + e)
+
         try:
-            body = response.read()
-        except Exception as e:
-            body = e.partial
-            sys.stderr.write('response.read() exception: ' + e)
+            body = response.read().decode('utf8', errors='ignore')
+        except ConnectionResetError:
+            brokenlinks = ' ConnectionResetError - link: ' + s_url
+            sys.stderr.write(brokenlinks)
+            continue
 
         soup = BeautifulSoup(body, 'lxml')
 
