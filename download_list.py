@@ -113,7 +113,14 @@ def main(args):
             else:
                 sys.stderr.write(' Gave up to open {}\n'.format(b_url))
 
-            body = response.read()
+            #body = response.read()
+            try:
+                body = response.read().decode('utf8', errors='ignore')
+            except ConnectionResetError:
+                brokenlinks = ' ConnectionResetError - link: ' + s_url
+                sys.stderr.write(brokenlinks)
+                time.sleep(RETRY_SLEEP_SEC)
+                continue
             soup = BeautifulSoup(body, 'lxml')
 
             # get meta
