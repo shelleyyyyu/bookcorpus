@@ -25,6 +25,7 @@ import os
 import datetime
 import json
 import argparse
+import urllib.request
 
 # If you wanna use some info, write them.
 REQUIRED = [
@@ -66,7 +67,9 @@ def main(args):
         time.sleep(SLEEP_SEC)
         for try_count in range(MAX_OPEN_COUNT):
             try:
-                response = opener.open(s_url)
+                req = urllib.request.Request(s_url, headers={'User-Agent': 'Mozilla/5.0'})
+                response = urllib.request.urlopen(req)
+                #response = opener.open(s_url)
                 if try_count >= 1:
                     sys.stderr.write('Succeeded in opening {}\n'.format(s_url))
                 break  # success
