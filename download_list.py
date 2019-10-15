@@ -66,11 +66,7 @@ def main(args):
         time.sleep(SLEEP_SEC)
         for try_count in range(MAX_OPEN_COUNT):
             try:
-                #response = opener.open(s_url)
-                headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36'}  
-                response = Request(url=s_url, headers=headers) 
-                #html = urlopen(req).read() 
-
+                response = opener.open(s_url)
                 if try_count >= 1:
                     sys.stderr.write('Succeeded in opening {}\n'.format(s_url))
                 break  # success
