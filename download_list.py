@@ -15,8 +15,7 @@ except ImportError:
     import http.cookiejar
     cj = http.cookiejar.CookieJar()
     import urllib
-    opener = urllib.request.build_opener(
-        urllib.request.HTTPCookieProcessor(cj))
+    opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
     urlretrieve = urllib.request.urlretrieve
 
 from bs4 import BeautifulSoup
@@ -26,6 +25,8 @@ import datetime
 import json
 import argparse
 import urllib.request
+from urllib.request import FancyURLopener
+from random import choice
 
 # If you wanna use some info, write them.
 REQUIRED = [
@@ -38,6 +39,15 @@ REQUIRED = [
     #    'publish',
     #    'num_words',
     'b_idx',
+]
+
+user_agents = [
+    'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
+    'Opera/9.25 (Windows NT 5.1; U; en)',
+    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
+    'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
+    'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.12) Gecko/20070731 Ubuntu/dapper-security Firefox/1.5.0.12',
+    'Lynx/2.8.5rel.1 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/1.2.9'
 ]
 
 SLEEP_SEC = 0.1
@@ -54,6 +64,9 @@ num_words_pt = re.compile(r'Words: (\d+)')
 pub_date_pt = re.compile(r'Published: ([\w\.]+\s[\d]+,\s[\d]+)')
 
 
+class MyOpener(FancyURLopener, object):
+    version = choice(user_agents)
+
 def main(args):
     filename = args.filename
     start_time = time.time()
@@ -62,14 +75,17 @@ def main(args):
     print("Filename: " + filename)
     fo = open(filename, 'wb', 0)
 
+    myopener= MyOpener()
+
     book_index = 0
     for i, s_url in enumerate(search_urls):
         time.sleep(SLEEP_SEC)
         for try_count in range(MAX_OPEN_COUNT):
             try:
-                req = urllib.request.Request(s_url, headers={'User-Agent': 'Mozilla/5.0'})
-                response = urllib.request.urlopen(req)
-                #response = opener.open(s_url)
+                #req = urllib.request.Request(s_url, headers={'User-Agent': 'Mozilla/5.0'})
+                #response = urllib.request.urlopen(req)
+
+                response = myopener.open(s_url)
                 if try_count >= 1:
                     sys.stderr.write('Succeeded in opening {}\n'.format(s_url))
                 break  # success
